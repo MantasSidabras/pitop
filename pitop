@@ -7,14 +7,17 @@ CUR="cpuinfo_cur_freq"
 
 DIVIDER=1000000
 
+TEMP=$(vcgencmd measure_temp)
 CUR=$(sudo cat $CPU_PATH$CUR)
 MAX=$(sudo cat $CPU_PATH$MAX)
 MIN=$(sudo cat $CPU_PATH$MIN)
 
+TEMP=$(echo $TEMP | cut -d'=' -f2 | sed "s/'C/ 'C/g")
 CUR=$(awk "BEGIN {print $CUR / $DIVIDER}")
 MAX=$(awk "BEGIN {print $MAX / $DIVIDER}")
 MIN=$(awk "BEGIN {print $MIN / $DIVIDER}")
 
+echo "temp    " $TEMP
 echo "cur_freq" $CUR GHz
 echo "max_freq" $MAX GHz
 echo "min_freq" $MIN GHz
